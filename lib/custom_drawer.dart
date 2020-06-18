@@ -1,22 +1,25 @@
+import 'package:HOD_app/Invoice.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:flutter/scheduler.dart';
-
+import 'package:HOD_app/homepage.dart';
 class CustomDrawer extends StatefulWidget {
+  Function callback;
+
+  CustomDrawer(this.callback);
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
 }
 
 class _CustomDrawerState extends State<CustomDrawer> with TickerProviderStateMixin {
   List<String> _list = [ "Menu","Invoice","Notifcation","Settings"];
-
+  var a;
   List<GlobalKey> _keys = [
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
   ];
-
   int checkIndex = 0;
 
   Offset checkedPositionOffset = Offset(0, 0);
@@ -36,6 +39,8 @@ class _CustomDrawerState extends State<CustomDrawer> with TickerProviderStateMix
       addAnimation();
     });
   }
+
+  
 
   void calcuteCheckOffset() {
     lastCheckOffset = checkedPositionOffset;
@@ -70,7 +75,7 @@ class _CustomDrawerState extends State<CustomDrawer> with TickerProviderStateMix
             child: CustomPaint(
               painter: CheckPointPainter(Offset(10, -50)),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -110,11 +115,12 @@ class _CustomDrawerState extends State<CustomDrawer> with TickerProviderStateMix
 
   void indexChecked(int i) {
     if (checkIndex == i) return;
-
+    
     setState(() {
       checkIndex = i;
       calcuteCheckOffset();
       addAnimation();
+      this.widget.callback(i);
     });
   }
 

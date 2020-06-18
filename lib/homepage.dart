@@ -1,13 +1,25 @@
 import 'package:HOD_app/Invoice.dart';
 import 'package:HOD_app/custom_drawer.dart';
+import 'package:HOD_app/testclass4.dart';
 import 'package:flutter/material.dart';
-
+import 'package:HOD_app/testclass.dart';
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
+  CustomDrawer customDrawer;
+  int widgetIndex2=0;
+  Widget currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    customDrawer = CustomDrawer(this.callback);
+
+    currentPage = customDrawer;
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -15,19 +27,26 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
-                Padding(
+              Padding(
                   padding: const EdgeInsets.only(left:70),
-                  child: InvoicePage(),
-                ),
-            CustomDrawer(),
+                  child:
+            IndexedStack(
+            index:widgetIndex2,
+            children:[TestClass(),InvoicePage(),TestClass4()],
+            ),
+              ),
+            currentPage,
           ],
         ),
       ),
     );
   }
+  void callback(int i) {
+    setState(() {
+      this.widgetIndex2= i;
+    });
+  }
 }
-
-
 
 class RightWidget extends StatefulWidget {
   @override

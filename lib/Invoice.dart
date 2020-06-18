@@ -11,7 +11,7 @@ class InvoicePage extends StatefulWidget {
 class _InvoicePageState extends State<InvoicePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(          
           floatingActionButton: FloatingActionButton.extended(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -26,7 +26,8 @@ class _InvoicePageState extends State<InvoicePage> {
             ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           
-          body: NestedScrollView(
+          body:
+           NestedScrollView(
         scrollDirection: Axis.vertical,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
