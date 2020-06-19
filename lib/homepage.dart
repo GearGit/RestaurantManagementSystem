@@ -2,7 +2,7 @@ import 'package:HOD_app/Invoice.dart';
 import 'package:HOD_app/custom_drawer.dart';
 import 'package:HOD_app/testclass4.dart';
 import 'package:flutter/material.dart';
-import 'package:HOD_app/testclass.dart';
+
 class HomePage extends StatefulWidget {
   @override
   HomePageState createState() => HomePageState();
@@ -32,7 +32,7 @@ class HomePageState extends State<HomePage> {
                   child:
             IndexedStack(
             index:widgetIndex2,
-            children:[TestClass(),InvoicePage(),TestClass4()],
+            children:[RightWidget(),TestClass4(),InvoicePage(),TestClass4()],
             ),
               ),
             currentPage,
@@ -106,7 +106,7 @@ class _RightWidgetState extends State<RightWidget>
                     text: "American",
                   ),
                   Tab(
-                    text: "Franch",
+                    text: "French",
                   ),
                   Tab(
                     text: "Mexico",
