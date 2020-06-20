@@ -1,4 +1,6 @@
 import 'package:HOD_app/Invoice.dart';
+import 'package:HOD_app/admin_ui/admin_home_page.dart';
+import 'package:HOD_app/admin_ui/create_item.dart';
 import 'package:HOD_app/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -16,29 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-          child: Scaffold(
-        
-        body: Center(
-          child:InvoicePage()
-      ),
-      ),
+      home: AdminMain(),
     );
   }
 }
