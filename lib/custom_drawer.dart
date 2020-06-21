@@ -12,9 +12,10 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> with TickerProviderStateMixin {
-  List<String> _list = [ "Menu","Invoice","Notifcation","Settings"];
+  List<String> _list = [ "Menu","Invoice","Notifcation","Settings","Help"];
   var a;
   List<GlobalKey> _keys = [
+    GlobalKey(),
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
