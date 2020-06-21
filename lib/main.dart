@@ -6,9 +6,6 @@ import 'package:HOD_app/screens/signUpPage.dart';
 import 'package:HOD_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
-import 'main1.dart';
-
-
 void main() {
   runApp(MyApp());
 }
@@ -23,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: RootPage(auth: new Auth()),
+      // home: RootPage(auth: new Auth()),
+      home: HomePage(),
       routes: <String, WidgetBuilder> {
         '/RootPage' : (context) => RootPage(),
         '/signUpPage' : (context) => SignUpScreen(),

@@ -39,7 +39,7 @@ class HomePageState extends State<HomePage> {
                   child:
             IndexedStack(
             index:widgetIndex2,
-            children:[RightWidget(),PaymentClass(),InvoicePage(),HelpPage(),DetailPage()],
+            children:[RightWidget(),InvoicePage(),HelpPage()],
             ),
               ),
             currentPage,
