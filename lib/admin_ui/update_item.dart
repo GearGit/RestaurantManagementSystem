@@ -35,7 +35,8 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))
             ),
-            label:Text("Update",style: TextStyle(color:Colors.white,fontWeight:FontWeight.w400,fontStyle:FontStyle.italic),),
+            icon: Icon(Icons.update),
+            label:Text("Update Item",style: TextStyle(color:Colors.white,fontWeight:FontWeight.w400,fontStyle:FontStyle.italic),),
             backgroundColor: Color(0xff1B3F8B),
             onPressed: ()=>handleSubmit()
             ),
@@ -48,9 +49,21 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
           children: <Widget>[
             /* Title of page */
             
-            Padding(
-              padding: EdgeInsets.only(left:30.0,right:30.0,top:30.0,bottom:30.0),
-              child: Text("Update Item Details",style: TextStyle(color:Colors.black,fontSize:28.0,fontWeight: FontWeight.bold),),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back,color: Colors.black),
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    }),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left:30.0,right:30.0,top:50.0,bottom:30.0),
+                  child: Text("Update Item Details",style: TextStyle(color:Colors.black,fontSize:28.0,fontWeight: FontWeight.bold),),
+                ),
+              ],
             ),
 
             /* Enter item name */ 

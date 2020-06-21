@@ -49,7 +49,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
             /* Title of page */
             
             Padding(
-              padding: EdgeInsets.only(left:30.0,right:30.0,top:30.0,bottom:30.0),
+              padding: EdgeInsets.only(left:30.0,right:30.0,top:50.0,bottom:30.0),
               child: Text("Add an Item",style: TextStyle(color:Colors.black,fontSize:28.0,fontWeight: FontWeight.bold),),
             ),
 
