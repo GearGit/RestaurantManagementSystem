@@ -22,3 +22,6 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+final String databasePurchaseItem = "PurchaseItem";
+final String databasePurchaseList = "PurchaseList";

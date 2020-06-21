@@ -11,25 +11,31 @@ class Cache extends HiveObject{
 }
 
 @HiveType(typeId:1)
-class Item extends HiveObject{
+class PurchaseItem extends HiveObject{
   @HiveField(0)
   int quatity;
   @HiveField(1)
   int price;
   @HiveField(2)
-  String type;
+  String name;
   @HiveField(3)
-  String description;
-  @HiveField(4)
   String url;
   
-  Item(
+  PurchaseItem({
     this.quatity,
     this.price,
-    this.type,
-    this.description,
+    this.name,
     this.url
-  );
+  });
+}
+
+@HiveType(typeId:2)
+class PurchaseList extends HiveObject{
+  @HiveField(0)
+  List<PurchaseItem> list;
+
+  PurchaseList({this.list});
+
 }
 
 

@@ -1,7 +1,10 @@
 import 'package:HOD_app/core/consts.dart';
 import 'package:HOD_app/core/flutter_icons.dart';
+import 'package:HOD_app/database.dart';
+import 'package:HOD_app/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:HOD_app/admin_ui/item.dart';
+import 'package:hive/hive.dart';
 
 class DetailPage extends StatefulWidget {
 
@@ -151,7 +154,24 @@ class _DetailPageState extends State<DetailPage> {
                     children: <Widget>[
                       Expanded(
                         child: RaisedButton(
-                          onPressed: () {},
+                          onPressed: () async{
+                            Box box = await Hive.openBox(databasePurchaseList);
+                            List<dynamic> list = await box.get(0);
+                            await box.clear();
+                            PurchaseItem item = PurchaseItem(
+                              name: widget.data.name,
+                              price: widget.data.price,
+                              quatity: count,
+                              url: widget.data.url
+                              );
+                            if(list == null){
+                              list = [item];
+                            }else{
+                              list.add(item);
+                            }
+                            await box.put(0, list);
+                            Navigator.of(context).pop();
+                          },
                           padding: EdgeInsets.symmetric(vertical: 16),
                           color: AppColors.greenColor,
                           shape: RoundedRectangleBorder(

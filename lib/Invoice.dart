@@ -1,5 +1,8 @@
-import 'package:HOD_app/ListItem.dart';
+import 'package:HOD_app/database.dart';
+import 'package:HOD_app/utilities/constants.dart';
+import 'package:HOD_app/widgets/menuitem.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class InvoicePage extends StatefulWidget {
   InvoicePage({Key key}) : super(key: key);
@@ -9,6 +12,22 @@ class InvoicePage extends StatefulWidget {
 }
 
 class _InvoicePageState extends State<InvoicePage> {
+
+  Future<dynamic> list;
+
+  Future<dynamic> getData() async{
+    Box box = await Hive.openBox(databasePurchaseList);
+    print("Box keys :\n"+box.keys.toString());
+    return box;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    list = getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(          
@@ -43,19 +62,32 @@ class _InvoicePageState extends State<InvoicePage> {
             )
           ];
         },
-        body: Container(
-        width: MediaQuery.of(context).size.width*0.8,
-        margin: EdgeInsets.only(bottom:60.0),
-        child: ListView.separated(
-          separatorBuilder: (context, index) {
-            return SizedBox(height:15.0);
+        body: FutureBuilder(
+          future: list,
+          builder: (context, snapshot) {
+            print("snapshot.data \n");
+            print(snapshot.data.get(0).toString());
+            if(snapshot.hasData){
+              List l = snapshot.data.get(0);
+            return Container(
+              width: MediaQuery.of(context).size.width*0.8,
+              margin: EdgeInsets.only(bottom:60.0),
+              child: ListView.separated(
+                separatorBuilder: (context, index) {
+                  return SizedBox(height:10.0);
+                },
+                shrinkWrap: true,
+                itemCount: l.length,
+                itemBuilder: (context,index){
+                  return InvoiceItem(data:l[index]);
+                }),
+            );
+            }else{
+              return Container();
+            }
           },
-          shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (context,index){
-            return ListItem();
-          }),
-          )
+                
+        )
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:HOD_app/admin_ui/admin_home_page.dart';
+import 'package:HOD_app/database.dart';
 import 'package:HOD_app/homepage.dart';
 import 'package:HOD_app/main1.dart';
 import 'package:HOD_app/screens/forgetPasswordScreen.dart';
@@ -7,8 +8,15 @@ import 'package:HOD_app/screens/rootPage.dart';
 import 'package:HOD_app/screens/signUpPage.dart';
 import 'package:HOD_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+  Hive.registerAdapter(PurchaseItemAdapter());
+  Hive.registerAdapter(PurchaseListAdapter());
   runApp(MyApp());
 }
 
