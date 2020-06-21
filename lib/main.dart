@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: RootPage(auth: new Auth()),
-      home: DriveClass(),
+      // home: DriveClass(),
+      home: AdminMain(),
       routes: <String, WidgetBuilder> {
         '/RootPage' : (context) => RootPage(),
         '/signUpPage' : (context) => SignUpScreen(),

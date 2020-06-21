@@ -54,10 +54,10 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
       ),
 
       body: StreamBuilder(
-        stream: Firestore.instance.collection("menu").document("main").snapshots(),
+        stream: Firestore.instance.collection("food_menu").document("item").snapshots(),
         builder: (context, snapshot) {
-          var items = snapshot.data;
-          print(items.toString());
+          DocumentSnapshot items = snapshot.data;
+          print(items.data.toString());
           return TabBarView(
             controller:_controller,
             children: <Widget>[
