@@ -1,9 +1,11 @@
 import 'package:HOD_app/Invoice.dart';
-import 'package:HOD_app/Productinfor.dart';
 import 'package:HOD_app/custom_drawer.dart';
-import 'package:HOD_app/testclass4.dart';
-import 'package:HOD_app/testclass5.dart';
+import 'package:HOD_app/payment.dart';
+import 'package:HOD_app/screens/menuscreen.dart';
+import 'package:HOD_app/helpPage.dart';
 import 'package:flutter/material.dart';
+
+import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,7 +36,7 @@ class HomePageState extends State<HomePage> {
                   child:
             IndexedStack(
             index:widgetIndex2,
-            children:[RightWidget(),Productinfor(),InvoicePage(),TestClass4(),HelpPage()],
+            children:[MenuPage(),InvoicePage(),HelpPage()],
             ),
               ),
             currentPage,

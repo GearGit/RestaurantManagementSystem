@@ -12,19 +12,19 @@ class _InvoicePageState extends State<InvoicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(          
-          floatingActionButton: FloatingActionButton.extended(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  ), 
-            ),
-            icon:Icon(Icons.check),
-            label:Text("Checkout",style: TextStyle(color:Colors.white,fontWeight:FontWeight.w400,fontStyle:FontStyle.italic),),
-            backgroundColor: Color(0xff1B3F8B),
-            onPressed: (){}
-            ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          // floatingActionButton: FloatingActionButton.extended(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.only(
+          //           topRight: Radius.circular(20),
+          //           bottomLeft: Radius.circular(20),
+          //         ), 
+          //   ),
+          //   icon:Icon(Icons.check),
+          //   label:Text("Checkout",style: TextStyle(color:Colors.white,fontWeight:FontWeight.w400,fontStyle:FontStyle.italic),),
+          //   backgroundColor: Color(0xff1B3F8B),
+          //   onPressed: (){}
+          //   ),
+          // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           
           body:
            NestedScrollView(
