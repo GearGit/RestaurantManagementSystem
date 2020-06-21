@@ -1,4 +1,5 @@
 import 'package:HOD_app/admin_ui/create_item.dart';
+import 'package:HOD_app/admin_ui/item.dart';
 import 'package:HOD_app/admin_ui/update_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +57,16 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
       body: StreamBuilder(
         stream: Firestore.instance.collection("food_menu").document("item").snapshots(),
         builder: (context, snapshot) {
-          DocumentSnapshot items = snapshot.data;
-          print(items.data.toString());
+          if(snapshot.hasData){
+            DocumentSnapshot items = snapshot.data;
+            List<dynamic> allItems = items.data["item"];
+          if(allItems != null){
+
+            List listItems = [];
+            allItems.forEach((element) {
+              listItems.add(Item.fromSnapshot(element));
+            });
+   
           return TabBarView(
             controller:_controller,
             children: <Widget>[
@@ -65,9 +74,9 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: listItems.length,
                 itemBuilder: (context, index) {
-                  return buildListItems();
+                  return buildListItems(listItems[index]);
                 },
 
               ),
@@ -80,24 +89,29 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
                 //   return SizedBox(height:5.0);
                 // },
                 itemBuilder: (context, index) {
-                  return buildListItems();
+                  return buildOrderList();
                 },
               ),
             ],
           
           );
-        }
+          }
+
+        }else{
+            return Container();
+          }
+          }
         
       ),
 
     );
   }
 
-  Widget buildListItems(){
+  Widget buildListItems(data){
 
-    String name = "Butter Chicken";
-    int qty = 15;
-    int price = 150;
+    String name = data.name;
+    int qty = data.qty;
+    int price = data.price;
 
     return Card(
       elevation: 8.0,
@@ -108,7 +122,7 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
       child: ListTile(
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("$name",style: TextStyle(color: Colors.black,fontSize: 24.0,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+          child: Text("$name".toUpperCase(),style: TextStyle(color: Colors.black,fontSize: 24.0,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
         ),
         subtitle: Column(
           children: <Widget>[
