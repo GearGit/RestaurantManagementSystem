@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: RootPage(auth: new Auth()),
-      home: AdminMain(),
+      home: RootPage(auth: new Auth()),
+      // home: AdminMain(),
       // home: HomePage(),
       routes: <String, WidgetBuilder> {
         '/RootPage' : (context) => RootPage(auth: new Auth()),
