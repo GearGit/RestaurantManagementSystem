@@ -34,3 +34,28 @@ class Item{
 
   }
 }
+
+class OrderItem{
+
+  String name;
+  int qty;
+  int price;
+
+  OrderItem({
+    this.name,
+    this.price,
+    this.qty,
+  });
+
+  String get getName => name;
+  int get getPrice => price;
+  int get getQty => qty;
+
+  OrderItem.fromSnapshot(Map<String,dynamic> snapshot){
+
+    name = snapshot["name"];
+    price = snapshot["price"];
+    qty = snapshot["qty"];
+
+  }
+}

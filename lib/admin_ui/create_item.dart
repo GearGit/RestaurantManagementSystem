@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CreateItemPage extends StatefulWidget {
@@ -13,8 +14,8 @@ class _CreateItemPageState extends State<CreateItemPage> {
   final itemCostController = TextEditingController();
   final itemQuantityController = TextEditingController();
   final itemUrlController = TextEditingController();
-  final itemDescriptionController = TextEditingController();
 
+  String category;
   int radioVal = -1;
 
   final FocusNode _nameFocus = FocusNode();  
@@ -36,7 +37,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
             ),
             label:Text("Submit",style: TextStyle(color:Colors.white,fontWeight:FontWeight.w400,fontStyle:FontStyle.italic),),
             backgroundColor: Color(0xff1B3F8B),
-            onPressed: () => handleSubmit(),
+            onPressed: () async => await handleSubmit(),
             ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           
@@ -149,25 +150,26 @@ class _CreateItemPageState extends State<CreateItemPage> {
               )
             ),
 
-            /*Enter item Description*/ 
+            /*Category dropdown list*/ 
 
             Container(
               padding: EdgeInsets.only(left:20.0,right:20.0,top:20.0),
-              child: TextFormField(
-                  controller: itemDescriptionController,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.done,
-                focusNode: _descriptionFocus,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.description),
-                  hintText: 'Description of the food item',
-                  labelText: 'Item Description *',
-                ),
-                onSaved: (String value) {
-                  // This optional block of code can be used to run
-                  // code when the user saves the form.
+              child: new DropdownButton<String>(
+                hint: Text("Select a catgory"),
+                value: category,
+                items: <String>['breads', 'mains', 'rolls', 'starters'].map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (str) {
+                  print(str);
+                  setState(() {
+                    category = str;
+                  });
                 },
-              )
+              ),
             ),
 
             /*Enter item type*/ 
@@ -203,29 +205,40 @@ class _CreateItemPageState extends State<CreateItemPage> {
       ),
     );
   }
-  void handleSubmit(){
+  Future handleSubmit() async{
     
     String name = itemNameController.text;
-    String description = itemDescriptionController.text;
     String cost = itemCostController.text;
     String quantity = itemQuantityController.text;
     String url = itemUrlController.text;
-    String type;
-    if(name.trim() != "" && description.trim() != "" && cost.trim() != "" && quantity.trim() != "" && url.trim() != "" && radioVal != -1){
+    bool isVeg;
+    if(name.trim() != "" && cost.trim() != "" && quantity.trim() != "" && url.trim() != "" && radioVal != -1){
 
       if(radioVal == 0){
-        type = "n";
+        isVeg = false;
       }else{
-        type = "v";
+        isVeg = true;
       }
+
+      Map<String,dynamic> map = {
+        "name" : name.toString(),
+        "category" : category.toString(),
+        "isVeg" : isVeg,
+        "url" : url.toString(),
+        "price" : int.parse(cost),
+        "qty" : int.parse(quantity),
+      };
+
       print("Item Name : "+name+"\n");
-      print("Item Desc : "+description+"\n");
       print("Item Cost : "+cost+"\n");
       print("Item Qty : "+quantity+"\n");
       print("Item URL : "+url+"\n");
-      print("Item Type : "+type+"\n");
+      print("Item Veg : "+isVeg.toString()+"\n");
+      
+      await addItem(map);
       
       _scaffoldKey.currentState.showSnackBar(_confirmaionSnackBar);
+
     }else{
       _scaffoldKey.currentState.showSnackBar(_incompleteSnackBar);
     }
@@ -234,5 +247,12 @@ class _CreateItemPageState extends State<CreateItemPage> {
   void _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);  
+  }
+  
+  Future addItem(map) async{
+    DocumentReference docRef = Firestore.instance.collection("food_menu").document("item");
+    docRef.updateData({
+      "item" : FieldValue.arrayUnion([map])
+    });
   }
 }

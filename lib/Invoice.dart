@@ -1,5 +1,6 @@
 import 'package:HOD_app/payment.dart';
 import 'package:HOD_app/utilities/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -52,7 +53,9 @@ class _InvoicePageState extends State<InvoicePage> {
             backgroundColor: Color(0xff1B3F8B),
             onPressed: (){
               itemList.length > 0 
-              ? Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentClass(data : itemList),))
+              ? 
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentClass(data : itemList),))
+                
               : _scaffoldkey.currentState.showSnackBar(SnackBar(content: Text("Cart is empty",textAlign: TextAlign.center,),));
             }
             ),
@@ -67,6 +70,18 @@ class _InvoicePageState extends State<InvoicePage> {
               expandedHeight: 100.0,
               pinned:false,
               backgroundColor: Colors.white,
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: (){
+                  Navigator.of(context).popAndPushNamed("/admin");
+                  }, child: Text("Admin")),
+                FlatButton(
+                  onPressed: (){
+                    
+                  addItem(itemList);
+                  Navigator.of(context).popAndPushNamed("/admin");
+                  }, child: Text("Add")),
+              ],
               title: Container(
                 height: 50,
                 margin: EdgeInsets.only(top:60.0,bottom:20,left: 10.0),
@@ -117,24 +132,31 @@ class _InvoicePageState extends State<InvoicePage> {
       ),
     );
   }
+  void addItem(List<dynamic> list) async{
+    DocumentReference docRef = Firestore.instance.collection("order").document("order");
+    List<dynamic> l = [];
+    list.forEach((element) {
+      l.add({
+        "name":element.name,
+        "qty":element.quatity,
+        "price":element.price,
+      });
+    });
+    docRef.updateData({
+      "order" : FieldValue.arrayUnion(l)
+    });
+  }
 
   void removeItem(int index) async{
     Box box = await Hive.openBox(databasePurchaseList);
     List l = box.get(0);
-    print("Before :\n");
-    l.forEach((element) {
-      print(element.name);
-    });
+    
     setState(() {
       itemList.removeAt(index);
     });
     await box.clear();
     await box.put(0,itemList);           
-    List k = box.get(0);
-    print("After : \n");
-    k.forEach((element) {
-      print(element.name);
-    });
+    
   }
 
 

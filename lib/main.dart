@@ -29,9 +29,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: RootPage(auth: new Auth()),
-      // home: HomePage(),
-      // home: AdminMain(),
+      // home: RootPage(auth: new Auth()),
+      home: AdminMain(),
       // home: HomePage(),
       routes: <String, WidgetBuilder> {
         '/RootPage' : (context) => RootPage(auth: new Auth()),
@@ -39,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/homePage' : (context) => HomePage(),
         '/forgetPassword' : (context) => ForgetPasswordScreen(),
         '/loginScreen': (context) => LoginScreen(),
+        '/admin': (context) => AdminMain(),
       },
     );
   }

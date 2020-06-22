@@ -37,7 +37,13 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
               dialog();
             }, 
             child: Text("LogOut")
-            )
+            ),
+          FlatButton(
+            onPressed: (){
+              Navigator.of(context).popAndPushNamed("/homePage");
+            }, 
+            child: Text("User")
+            ),
         ],
         backgroundColor: Colors.white,
         centerTitle:true,
@@ -63,8 +69,12 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
         )
       ),
 
-      body: StreamBuilder(
-        stream: Firestore.instance.collection("food_menu").document("item").snapshots(),
+      body: 
+          TabBarView(
+            controller:_controller,
+            children: <Widget>[
+              StreamBuilder(
+                stream: Firestore.instance.collection("food_menu").document("item").snapshots(),
         builder: (context, snapshot) {
           if(snapshot.hasData){
             DocumentSnapshot items = snapshot.data;
@@ -75,12 +85,8 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
             allItems.forEach((element) {
               listItems.add(Item.fromSnapshot(element));
             });
-   
-          return TabBarView(
-            controller:_controller,
-            children: <Widget>[
-              
-              ListView.builder(
+
+            return ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: listItems.length,
@@ -88,30 +94,55 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
                   return buildListItems(listItems[index]);
                 },
 
+              );
+          
+            }
+          }else{
+            return Center(
+              child: Container(
+                child:Text("No Items to show")
               ),
-              
-              ListView.builder(
+            );
+          }
+          }
+      ),
+              StreamBuilder(
+                stream: Firestore.instance.collection("order").document("order").snapshots(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            DocumentSnapshot items = snapshot.data;
+            List<dynamic> allItems = items.data["order"];
+          if(allItems != null){
+
+            List listItems = [];
+            allItems.forEach((element) {
+              listItems.add(OrderItem.fromSnapshot(element));
+            });
+
+            return ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: 5,
-                // separatorBuilder: (context, index) {
-                //   return SizedBox(height:5.0);
-                // },
+                itemCount: listItems.length,
                 itemBuilder: (context, index) {
-                  return buildOrderList();
+                  return buildOrderList(listItems[index]);
                 },
+
+              );
+          
+            }else{
+            return Center(
+              child: Container(
+                child:Text("No Orders")
               ),
+            );
+          }
+          }
+          }
+      ),
+              
             ],
           
-          );
-          }
-
-        }else{
-            return Container();
-          }
-          }
-        
-      ),
+          ),
     );
   }
   
@@ -167,37 +198,23 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                  
-                  RaisedButton(
+                child: RaisedButton(
                     onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateItemPage()));
-                    },
-                    color: Colors.blue,
-                    child: Text("Update",style:TextStyle(color: Colors.white)),
-                  ),
-                  
-                  RaisedButton(
-                    onPressed: (){
-                      _showDeleteDialog(context);
+                      _showDeleteDialog(context,data);
                     },
                     color: Colors.red,
                     child: Text("Delete",style:TextStyle(color: Colors.white)),
                   ),
-
-                ],),
               )
         ]),
         ),
     );
   }
 
-  Widget buildOrderList(){
-    String name = "Butter Chicken";
-    int qty = 15;
+  Widget buildOrderList(data){
+    String name = data.name;
+    int qty = data.qty;
+    int price = data.price * qty;
 
     return Card(
       elevation: 8.0,
@@ -218,14 +235,18 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
+                child: Text("Total Price\t:\t$price"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                   
                   RaisedButton(
-                    onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateItemPage()));
+                    onPressed: () async{
+                      await removeOrder(data);
                     },
                     color: Colors.blue,
                     child: Text("Order Completed",style:TextStyle(color: Colors.white)),
@@ -233,7 +254,7 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
                   
                   RaisedButton(
                     onPressed: (){
-                      _showCancelDialog(context);
+                      _showCancelDialog(context,data);
                     },
                     color: Colors.red,
                     child: Text("Cancel Order",style:TextStyle(color: Colors.white)),
@@ -246,13 +267,43 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
     );
   }
 
-  void _showDeleteDialog(BuildContext context){
+  Future removeOrder(map) async{
+    DocumentReference docRef = Firestore.instance.collection("order").document("order");
+      docRef.updateData(
+      {
+        "order" : FieldValue.arrayRemove([{
+          "name":map.name,
+          "qty":map.qty,
+          "price":map.price,
+        }])
+      });
+  }
+  
+  Future removeItem(data) async{
+    DocumentReference docRef = Firestore.instance.collection("food_menu").document("item");
+      docRef.updateData(
+      {
+        "item" : FieldValue.arrayRemove([{
+            "name" : data.name.toString(),
+            "category" : data.category.toString(),
+            "isVeg" : data.isVeg,
+            "url" : data.url.toString(),
+            "price" : data.price,
+            "qty" : data.qty,
+          }])
+      });
+  }
+  
+  void _showDeleteDialog(BuildContext context,map){
     AlertDialog alert = AlertDialog(
       title: Text("Delete Item"),
       content: Text("Are you sure you want to delete this item ?"),
       actions: <Widget>[
         FlatButton(
-          onPressed: (){}, 
+          onPressed: () async{
+            Navigator.of(context).pop();
+            await removeItem(map);
+          },  
           child: Text("Yes")
           ),
         FlatButton(
@@ -266,13 +317,16 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
     showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
-  void _showCancelDialog(BuildContext context){
+  void _showCancelDialog(BuildContext context,dynamic data){
     AlertDialog alert = AlertDialog(
       title: Text("Cancel Order"),
       content: Text("Are you sure you want to cancel the order?"),
       actions: <Widget>[
         FlatButton(
-          onPressed: (){}, 
+          onPressed: () async{
+            Navigator.of(context).pop();
+            await removeOrder(data);
+          }, 
           child: Text("Yes")
           ),
         FlatButton(
@@ -285,5 +339,4 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
     );
     showDialog(context: context, builder: (BuildContext context) => alert);
   }
-
 }

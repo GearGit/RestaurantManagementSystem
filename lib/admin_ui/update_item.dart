@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UpdateItemPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
   final itemCostController = TextEditingController();
   final itemQuantityController = TextEditingController();
   final itemUrlController = TextEditingController();
-  final itemDescriptionController = TextEditingController();
+  String category;
 
   int radioVal = -1;
 
@@ -160,26 +161,27 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
               )
             ),
 
-            /*Enter item Description*/ 
 
             Container(
               padding: EdgeInsets.only(left:20.0,right:20.0,top:20.0),
-              child: TextFormField(
-                  controller: itemDescriptionController,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.done,
-                focusNode: _descriptionFocus,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.description),
-                  hintText: 'Description of the food item',
-                  labelText: 'Item Description *',
-                ),
-                onSaved: (String value) {
-                  // This optional block of code can be used to run
-                  // code when the user saves the form.
+              child: new DropdownButton<String>(
+                hint: Text("Select a catgory"),
+                value: category,
+                items: <String>['breads', 'mains', 'rolls', 'starters'].map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (str) {
+                  print(str);
+                  setState(() {
+                    category = str;
+                  });
                 },
-              )
+              ),
             ),
+
 
             /*Enter item type*/ 
 
@@ -215,15 +217,14 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
       ),
     );
   }
-  void handleSubmit(){
+  void handleSubmit()async{
     
     String name = itemNameController.text;
-    String description = itemDescriptionController.text;
     String cost = itemCostController.text;
     String quantity = itemQuantityController.text;
     String url = itemUrlController.text;
     String type;
-    if(name.trim() != "" && description.trim() != "" && cost.trim() != "" && quantity.trim() != "" && url.trim() != "" && radioVal != -1){
+    if(name.trim() != "" && cost.trim() != "" && quantity.trim() != "" && url.trim() != "" && radioVal != -1){
 
       if(radioVal == 0){
         type = "n";
@@ -231,11 +232,11 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
         type = "v";
       }
       print("Item Name : "+name+"\n");
-      print("Item Desc : "+description+"\n");
       print("Item Cost : "+cost+"\n");
       print("Item Qty : "+quantity+"\n");
       print("Item URL : "+url+"\n");
       print("Item Type : "+type+"\n");
+      print("Item category : "+category+"\n");
       
       _scaffoldKey.currentState.showSnackBar(_confirmaionSnackBar);
     }else{
@@ -246,5 +247,18 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
   void _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);  
+  }
+
+  void updateData(String n) async{
+    DocumentReference ref = Firestore.instance.collection("food_menu").document("item");
+    DocumentSnapshot doc = await ref.get();
+    List items = doc.data["item"];
+    items.forEach((element) {
+      // if(element["name"] == n){
+      //   ref.updateData({
+      //     "item":
+      //   });
+      // }
+    });
   }
 }
