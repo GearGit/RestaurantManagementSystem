@@ -1,4 +1,4 @@
-import 'package:HOD_app/main1.dart';
+import 'package:HOD_app/homepage.dart';
 import 'package:HOD_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +83,7 @@ class _RootPageState extends State<RootPage> {
 
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return new DriveClass();
+          return new HomePage();
         } else
           return buildWaitingScreen();
         break;

@@ -1,4 +1,4 @@
-import 'package:HOD_app/main1.dart';
+import 'package:HOD_app/homepage.dart';
 import 'package:HOD_app/utilities/constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +116,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
- 
 
   Widget _showPage(){
   return Scaffold(
@@ -269,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _isLoading = false;
       });
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => new DriveClass()));
+          context, MaterialPageRoute(builder: (context) => new HomePage()));
     } catch (e) {
       print(e.message);
       setState(() {

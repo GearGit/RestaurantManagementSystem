@@ -1,4 +1,5 @@
 import 'package:HOD_app/Invoice.dart';
+import 'package:HOD_app/aboutus.dart';
 import 'package:HOD_app/custom_drawer.dart';
 import 'package:HOD_app/payment.dart';
 import 'package:HOD_app/screens/menuscreen.dart';
@@ -18,6 +19,7 @@ class HomePageState extends State<HomePage> {
   Widget currentPage;
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   @override
+  
   void initState() {
     super.initState();
     customDrawer = CustomDrawer(this.callback);
@@ -36,7 +38,7 @@ class HomePageState extends State<HomePage> {
                   child:
             IndexedStack(
             index:widgetIndex2,
-            children:[MenuPage(),InvoicePage(),HelpPage()],
+            children:[MenuPage(),InvoicePage(),HelpPage(),AboutUs()],
             ),
               ),
             currentPage,

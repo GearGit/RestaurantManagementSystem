@@ -17,16 +17,14 @@ class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Material(
-        child: Center(child: Text('PRESS FOR HELP')),
-
-    ),
-    floatingActionButton: FloatingActionButton(
-  onPressed: () {
-    FlutterShareMe().shareToWhatsApp(base64Image: base64Image, msg: msg);
-  },
-
-    )
+      body: Center(
+        child: RaisedButton(
+          onPressed: (){
+            FlutterShareMe().shareToWhatsApp(base64Image: base64Image, msg: msg);
+          },
+          child: Text("Contact on WhatsApp",style: TextStyle(color:Colors.white),),
+          color: Colors.green,
+      ),),
     );
   }
 }

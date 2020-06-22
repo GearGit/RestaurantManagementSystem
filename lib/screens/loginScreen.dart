@@ -1,4 +1,4 @@
-import 'package:HOD_app/main1.dart';
+import 'package:HOD_app/homepage.dart';
 import 'package:HOD_app/services/auth_services.dart';
 import 'package:HOD_app/utilities/constants.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       widget.loginCallback();
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => DriveClass()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     } catch (e) {
       print('caught error $e');
       setState(() {

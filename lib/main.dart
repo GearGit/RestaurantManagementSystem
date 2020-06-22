@@ -1,7 +1,6 @@
 import 'package:HOD_app/admin_ui/admin_home_page.dart';
 import 'package:HOD_app/database.dart';
 import 'package:HOD_app/homepage.dart';
-import 'package:HOD_app/main1.dart';
 import 'package:HOD_app/screens/forgetPasswordScreen.dart';
 import 'package:HOD_app/screens/loginScreen.dart';
 import 'package:HOD_app/screens/rootPage.dart';
@@ -17,10 +16,10 @@ void main() async{
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(PurchaseItemAdapter());
   Hive.registerAdapter(PurchaseListAdapter());
-  runApp(MyApp());
+  runApp(SignInNew());
 }
 
-class MyApp extends StatelessWidget {
+class SignInNew extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -30,10 +29,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: RootPage(auth: new Auth()),
+      home: RootPage(auth: new Auth()),
       // home: HomePage(),
       // home: AdminMain(),
-      home: DriveClass(),
+      // home: DriveClass(),
       routes: <String, WidgetBuilder> {
         '/RootPage' : (context) => RootPage(),
         '/signUpPage' : (context) => SignUpScreen(),

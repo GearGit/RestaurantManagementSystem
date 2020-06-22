@@ -84,8 +84,6 @@ class _UpdateItemPageState extends State<UpdateItemPage> {
                   labelText: 'Item Name *',
                 ),
                 onSaved: (String value) {
-                  // This optional block of code can be used to run
-                  // code when the user saves the form.
                 },
               )
             ),
