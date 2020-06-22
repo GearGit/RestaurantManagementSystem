@@ -1,3 +1,4 @@
+import 'package:HOD_app/database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_swiper/flutter_swiper.dart';
@@ -7,6 +8,8 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 
 class PaymentClass extends StatefulWidget {
+  final List<dynamic> data;
+  PaymentClass({this.data});
   @override
   _Paymentstate createState() =>  _Paymentstate();
 }
@@ -69,6 +72,11 @@ class _Paymentstate extends State<PaymentClass> {
 
   @override
   Widget build(BuildContext context) {
+    int count = 0;
+    widget.data.forEach((element){
+      count = count + (element.quatity*element.price);
+    });
+    totalAmount = count;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("HOD PAYMENT GATEWAY"),
@@ -77,19 +85,8 @@ class _Paymentstate extends State<PaymentClass> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            LimitedBox(
-             maxWidth: 150.0,
-              child: TextField(
-                keyboardType:TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: "Total Bill."
-                ),
-                onChanged: (value){
-                  setState(() {
-                    totalAmount = num.parse(value);
-                     });
-                },
-              ),
+            Container(
+              child: Text("Total Price : \n$count"),
             ),
 
             SizedBox(

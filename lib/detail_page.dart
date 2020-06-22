@@ -70,16 +70,17 @@ class _DetailPageState extends State<DetailPage> {
               padding: EdgeInsets.all(28),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     widget.data.name.toUpperCase(),
-                    
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 24),
                   Row(
                     children: <Widget>[
                       Text(

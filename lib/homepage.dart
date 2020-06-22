@@ -16,7 +16,7 @@ class HomePageState extends State<HomePage> {
   CustomDrawer customDrawer;
   int widgetIndex2=0;
   Widget currentPage;
-
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();

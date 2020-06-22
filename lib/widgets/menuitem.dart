@@ -1,7 +1,9 @@
 import 'package:HOD_app/admin_ui/item.dart';
 import 'package:HOD_app/database.dart';
 import 'package:HOD_app/detail_page.dart';
+import 'package:HOD_app/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class MenuItem extends StatefulWidget {
   final Item data;
@@ -112,113 +114,6 @@ class _MenuItemState extends State<MenuItem> {
               
           ],
         ),
-      ),
-    );
-  }
-}
-
-class InvoiceItem extends StatefulWidget {
-  final PurchaseItem data;
-  InvoiceItem({Key key,this.data}) : super(key: key);
-
-  @override
-  _InvoiceItemState createState() => _InvoiceItemState();
-}
-
-class _InvoiceItemState extends State<InvoiceItem> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    int price = widget.data.price * widget.data.quatity; 
-    String dishName = "${widget.data.name}".toUpperCase();
-    String url = widget.data.url;
-
-    return Container(
-      width: MediaQuery.of(context).size.width*0.9,
-      height: 180.0,
-      child: Stack(
-        children: <Widget>[
-
-           /* Elevated Card */
-          
-          Align(
-              alignment:Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width*0.6,
-                height: 125.0,
-                decoration: BoxDecoration(
-                color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(18.0),
-                    bottomLeft: Radius.circular(18.0),
-                    topRight: Radius.circular(18.0),
-                    bottomRight: Radius.circular(18.0),
-                  ),
-                  boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0.0, 1.0), //(x,y)
-                              blurRadius: 6.0,
-                            ),
-                          ],
-                ),
-              ),
-            ),
-
-           /*Image Top Left*/
-
-          Positioned(
-            top: 0,
-            left:0,
-            child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: new DecorationImage(
-                              fit: BoxFit.fill,
-                              image: new NetworkImage(url)
-                          )
-                      )),
-            ),
-
-             /*Title*/
-
-            Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                width:MediaQuery.of(context).size.width*0.5,
-                  child: Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(top:40.0,left: 50.0),
-                      child: Text(dishName,style: TextStyle(color:Colors.black,fontSize:20.0,fontWeight: FontWeight.bold)),
-                ),
-                  ),
-              ),
-            ),
-
-             /*Price bottom left*/
-
-            Align(
-              alignment:Alignment.bottomCenter,
-              child: Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 35.0),
-                  child: Text("Rs. $price",style: TextStyle(color:Colors.blue[800],fontSize:22.0,fontWeight: FontWeight.bold))
-                    ),
-                            )
-            )
-            
-        ],
       ),
     );
   }
