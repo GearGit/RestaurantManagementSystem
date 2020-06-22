@@ -4,6 +4,7 @@ import 'package:HOD_app/custom_drawer.dart';
 import 'package:HOD_app/payment.dart';
 import 'package:HOD_app/screens/menuscreen.dart';
 import 'package:HOD_app/helpPage.dart';
+import 'package:HOD_app/setting.dart';
 import 'package:flutter/material.dart';
 
 import 'detail_page.dart';
@@ -38,7 +39,7 @@ class HomePageState extends State<HomePage> {
                   child:
             IndexedStack(
             index:widgetIndex2,
-            children:[MenuPage(),InvoicePage(),HelpPage(),AboutUs()],
+            children:[MenuPage(),InvoicePage(),HelpPage(),SettingsPage()],
             ),
               ),
             currentPage,

@@ -16,10 +16,10 @@ void main() async{
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(PurchaseItemAdapter());
   Hive.registerAdapter(PurchaseListAdapter());
-  runApp(SignInNew());
+  runApp(MyApp());
 }
 
-class SignInNew extends StatelessWidget {
+class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class SignInNew extends StatelessWidget {
       home: RootPage(auth: new Auth()),
       // home: HomePage(),
       // home: AdminMain(),
-      // home: DriveClass(),
+      // home: HomePage(),
       routes: <String, WidgetBuilder> {
-        '/RootPage' : (context) => RootPage(),
+        '/RootPage' : (context) => RootPage(auth: new Auth()),
         '/signUpPage' : (context) => SignUpScreen(),
         '/homePage' : (context) => HomePage(),
         '/forgetPassword' : (context) => ForgetPasswordScreen(),

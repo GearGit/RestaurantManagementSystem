@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:flutter/scheduler.dart';
 import 'package:HOD_app/homepage.dart';
+
 class CustomDrawer extends StatefulWidget {
-  Function callback;
+  final Function callback;
 
   CustomDrawer(this.callback);
   @override
@@ -12,7 +13,7 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> with TickerProviderStateMixin {
-  List<String> _list = [ "Menu","Invoice","Help","About Us"];
+  List<String> _list = [ "Menu","Invoice","Help","Settings"];
   var a;
   List<GlobalKey> _keys = [
     GlobalKey(),

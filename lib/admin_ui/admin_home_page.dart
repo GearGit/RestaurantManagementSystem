@@ -3,6 +3,7 @@ import 'package:HOD_app/admin_ui/item.dart';
 import 'package:HOD_app/admin_ui/update_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminMain extends StatefulWidget {
   AdminMain({Key key}) : super(key: key);
@@ -30,6 +31,14 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
 
       appBar: AppBar(
         title:Text("Admin Panel", style:TextStyle(fontSize:28.0,fontWeight:FontWeight.bold,color:Colors.black),),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: (){
+              dialog();
+            }, 
+            child: Text("LogOut")
+            )
+        ],
         backgroundColor: Colors.white,
         centerTitle:true,
         bottom:TabBar(
@@ -103,8 +112,30 @@ class _AdminMainState extends State<AdminMain> with TickerProviderStateMixin{
           }
         
       ),
-
     );
+  }
+  
+  void dialog(){
+    AlertDialog alert = new AlertDialog(
+      title: Text("Log Out"),
+      content: Text("Are you sure you want to log out?"),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () async{
+            await FirebaseAuth.instance.signOut();
+            Navigator.of(context).popAndPushNamed('/RootPage');
+          }, 
+          child: Text("Yes")
+          ),
+        FlatButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          }, 
+          child: Text("No")
+          ),
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
   Widget buildListItems(data){

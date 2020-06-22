@@ -1,3 +1,4 @@
+import 'package:HOD_app/admin_ui/admin_home_page.dart';
 import 'package:HOD_app/homepage.dart';
 import 'package:HOD_app/services/auth_services.dart';
 import 'package:HOD_app/utilities/constants.dart';
@@ -30,6 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading;
 
+  String email;
+
   Future<void> signInWithMail() async {
     setState(() {
       _errorMessage = "";
@@ -43,10 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
       setState(() {
         _isLoading = false;
+        email = emailController.text;
       });
 
       widget.loginCallback();
-      Navigator.pushReplacement(
+      email == "hodapp@st.niituniversity.in"
+      ? Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => AdminMain()))
+      : Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     } catch (e) {
       print('caught error $e');
@@ -63,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _errorMessage = "";
     _isLoading = false;
     _show = false;
+    email = "";
     super.initState();
   }
 

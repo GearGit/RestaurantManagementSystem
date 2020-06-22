@@ -42,7 +42,9 @@ class _AboutUsState extends State<AboutUs> {
                     Icons.arrow_back_ios,
                     color: Colors.white,
                   ),
-                  onPressed: null,
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
               Padding(
